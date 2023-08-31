@@ -36,6 +36,13 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		},
 		SchemaMode:   plugin.SchemaModeDynamic,
 		TableMapFunc: pluginTableDefinitions,
+		DefaultRetryConfig: &plugin.RetryConfig{
+			ShouldRetryError: func(err error) bool {
+				return true
+			},
+			MaxAttempts:   5,
+			RetryInterval: 10000,
+		},
 	}
 
 	return p
